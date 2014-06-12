@@ -1,35 +1,16 @@
-# Hubot Example
+# Hubot Fitbit Leaders
 
-An example script package for Hubot
+This script is designed to be used with a [Hubot](http://hubot.github.com) to compare the Fitbit activity of your friends.
 
-[![Build Status](https://travis-ci.org/hubot-scripts/hubot-example.png)](https://travis-ci.org/hubot-scripts/hubot-example)
+## Suggested Setup
 
-## Directory Structure
+* Decide whether you want to use a user account or create a "robot" account to use with Fitbit
+* Register a new Fitbit application with whichever you selected in the previous step
+* Using the supplied OAuth credentials from registration, obtain a `FITBIT_OAUTH_TOKEN` and `FITBIT_OAUTH_TOKEN_SECRET` by manually walking through the OAuth process (use a tool like [Runscope](https://www.runscope.com/) to make this a bit easier).
+* Register the returned values as environment variables when starting your bot (as usual with Hubot scripts).
 
-Using the common directory structure for hubot script packages it will be easy
-to manage and allow others to easily contribute to your package.
+## Commands
 
-### script
-
-This directory is home to a couple of development scripts; `bootstrap` and `test`
-they're used to bootstrap the development environment and run tests
-respectively.
-
-### src
-
-This directory is home to the actual hubot scripts in the package. Your
-`index.coffee` entry point will load the scripts from this directory.
-
-### test
-
-This directory is home to any tests you write for your scripts. This example
-package uses Mocha, Chai and Sinon to manage writing tests.
-
-## Advantages of Building a Package
-
-Some of the advantages of building an npm package for your hubot script(s) are:
-
-* You don't need to rely on when hubot-scripts package is released.
-* You can specify dependencies in the `package.json` rather than have users
-  manually specify them
-* You can easily add tests using your favourite frameworks and libraries
+- `hubot fitbit leaders` - Show table of leaders
+- `hubot fitbit register` - Show how to friend the bot
+- `hubot fitbit approve` - Approve pending requests
