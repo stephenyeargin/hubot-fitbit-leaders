@@ -2,6 +2,8 @@
 
 This script is designed to be used with a [Hubot](http://hubot.github.com) to compare the Fitbit activity of your friends.
 
+[![Build Status](https://travis-ci.org/stephenyeargin/hubot-fitbit-leaders.png)](https://travis-ci.org/stephenyeargin/hubot-fitbit-leaders)
+
 ## Suggested Setup
 
 * Decide whether you want to use a user account or create a "robot" account to use with Fitbit
