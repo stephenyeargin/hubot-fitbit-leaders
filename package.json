@@ -1,9 +1,9 @@
 {
   "name": "hubot-fitbit-leaders",
   "description": "Fitbit leaderboards",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Stephen Yeargin <stephen@yearg.in>",
-  "homepage": "https://github.com/stephenyeargin/hubot-fitbit-leaders",
+  "homepage": "https://github.com/hubot-scripts/hubot-fitbit-leaders",
   "license": "MIT",
 
   "keywords": [
@@ -14,11 +14,11 @@
 
   "repository": {
     "type": "git",
-    "url": "git://github.com/stephenyeargin/hubot-fitbit-leaders.git"
+    "url": "https://github.com/hubot-scripts/hubot-fitbit-leaders"
   },
 
   "bugs": {
-    "url": "https://github.com/stephenyeargin/hubot-fitbit-leaders/issues"
+    "url": "https://github.com/hubot-scripts/hubot-fitbit-leaders/issues"
   },
 
   "dependencies": {
