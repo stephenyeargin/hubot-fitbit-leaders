@@ -1,40 +1,33 @@
 {
   "name": "hubot-fitbit-leaders",
   "description": "Fitbit leaderboards",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Stephen Yeargin <stephen@yearg.in>",
   "homepage": "https://github.com/hubot-scripts/hubot-fitbit-leaders",
   "license": "MIT",
-
   "keywords": [
     "hubot",
     "hubot-scripts",
     "fitbit"
   ],
-
   "repository": {
     "type": "git",
     "url": "https://github.com/hubot-scripts/hubot-fitbit-leaders"
   },
-
   "bugs": {
     "url": "https://github.com/hubot-scripts/hubot-fitbit-leaders/issues"
   },
-
   "dependencies": {
     "coffee-script": "~1.6",
     "fitbit-js": "0.2.0"
   },
-
   "devDependencies": {
     "mocha": "*",
     "chai": "*",
     "sinon-chai": "*",
     "sinon": "*"
   },
-
   "main": "index.coffee",
-
   "scripts": {
     "test": "script/test"
   }
