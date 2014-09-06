@@ -13,7 +13,7 @@
 # Commands:
 #   hubot fitbit leaders - Show table of leaders
 #   hubot fitbit register - Show how to friend the bot
-#   hubot fitbit approve - Approve pending requests
+#   hubot fitbit approve - Approve all pending requests
 #
 # Notes:
 #   To obtain/set the FITBIT_OAUTH_TOKEN / FITBIT_OAUTH_TOKEN_SECRET, you will need to go through the OAuth handshake manually with your bot's credentials
