@@ -10,10 +10,10 @@ This script is designed to be used with a [Hubot](http://hubot.github.com) to co
 * Register a new Fitbit application with whichever you selected in the previous step, noting the `FITBIT_CLIENT_ID` and FITBIT_CLIENT_SECRET`.
 * Using the supplied OAuth credentials from registration, obtain a `FITBIT_OAUTH_TOKEN` and `FITBIT_OAUTH_TOKEN_SECRET` by manually walking through the OAuth process (use a tool like [Runscope](https://www.runscope.com/) to make this a bit easier).
 * Register the four values as environment variables when starting your bot (as usual with Hubot scripts).
-** `export FITBIT_CLIENT_ID=theclientid`
-** `export FITBIT_CLIENT_SECRET=theclientsecret`
-** `export FITBIT_OAUTH_TOKEN=theoauthtoken`
-** `export FITBIT_OAUTH_TOKEN_SECRET=theoauthtokensecret`
+ * `export FITBIT_CLIENT_ID=theclientid`
+ * `export FITBIT_CLIENT_SECRET=theclientsecret`
+ * `export FITBIT_OAUTH_TOKEN=theoauthtoken`
+ * `export FITBIT_OAUTH_TOKEN_SECRET=theoauthtokensecret`
 
 If you are using Heroku to host your bot, replace `export ...` with `heroku set:config ...`.
 
