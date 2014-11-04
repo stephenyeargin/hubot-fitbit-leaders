@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "coffee-script": "~1.6",
-    "fitbit-js": "0.2.0"
+    "fitbit-js": "0.3.0"
   },
   "devDependencies": {
     "mocha": "*",
