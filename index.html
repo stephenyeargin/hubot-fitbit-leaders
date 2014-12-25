@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Hubot Fitbit Leaders : Fitbit leaderboard for Hubot">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Hubot Fitbit Leaders</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/hubot-scripts/hubot-fitbit-leaders">View on GitHub</a>
+
+          <h1 id="project_title">Hubot Fitbit Leaders</h1>
+          <h2 id="project_tagline">Fitbit leaderboard for Hubot</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/hubot-scripts/hubot-fitbit-leaders/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/hubot-scripts/hubot-fitbit-leaders/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a id="suggested-setup" class="anchor" href="#suggested-setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Suggested Setup</h2>
+
+<ul>
+<li>Decide whether you want to use a user account or create a "robot" account to use with Fitbit</li>
+<li>Register a new Fitbit application with whichever you selected in the previous step, noting the <code>FITBIT_CLIENT_ID</code> and FITBIT_CLIENT_SECRET`.</li>
+<li>Using the supplied OAuth credentials from registration, obtain a <code>FITBIT_OAUTH_TOKEN</code> and <code>FITBIT_OAUTH_TOKEN_SECRET</code> by manually walking through the OAuth process (use a tool like <a href="https://www.runscope.com/">Runscope</a> to make this a bit easier).</li>
+<li>Register the four values as environment variables when starting your bot (as usual with Hubot scripts).
+
+<ul>
+<li><code>export FITBIT_CLIENT_ID=theclientid</code></li>
+<li><code>export FITBIT_CLIENT_SECRET=theclientsecret</code></li>
+<li><code>export FITBIT_OAUTH_TOKEN=theoauthtoken</code></li>
+<li><code>export FITBIT_OAUTH_TOKEN_SECRET=theoauthtokensecret</code></li>
+</ul>
+</li>
+</ul>
+
+<p>If you are using Heroku to host your bot, replace <code>export ...</code> with <code>heroku set:config ...</code>.</p>
+
+<h2>
+<a id="adding-to-your-hubot" class="anchor" href="#adding-to-your-hubot" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding to Your Hubot</h2>
+
+<p>See full instructions <a href="https://github.com/github/hubot/blob/master/docs/scripting.md#npm-packages">here</a>.</p>
+
+<ol>
+<li>
+<code>npm install hubot-fitbit-leaders --save</code> (updates your <code>package.json</code> file)</li>
+<li>Open the <code>external-scripts.json</code> file in the root directory (you may need to create this file) and add an entry to the array (e.g. <code>[ 'hubot-fitbit-leaders' ]</code>).</li>
+</ol>
+
+<h2>
+<a id="commands" class="anchor" href="#commands" aria-hidden="true"><span class="octicon octicon-link"></span></a>Commands</h2>
+
+<ul>
+<li>
+<code>hubot fitbit leaders</code> - Show table of leaders</li>
+<li>
+<code>hubot fitbit register</code> - Show how to friend the bot</li>
+<li>
+<code>hubot fitbit approve</code> - Approve all pending requests</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Hubot Fitbit Leaders maintained by <a href="https://github.com/hubot-scripts">hubot-scripts</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
