@@ -1,8 +1,6 @@
-# Hubot Fitbit Leaders
+# Hubot Fitbit Leaders [![npm version](https://badge.fury.io/js/hubot-fitbit-leaders.svg)](http://badge.fury.io/js/hubot-fitbit-leaders) [![Build Status](https://travis-ci.org/hubot-scripts/hubot-fitbit-leaders.png)](https://travis-ci.org/hubot-scripts/hubot-fitbit-leaders)
 
 This script is designed to be used with a [Hubot](http://hubot.github.com) to compare the Fitbit activity of your friends.
-
-[![Build Status](https://travis-ci.org/hubot-scripts/hubot-fitbit-leaders.png)](https://travis-ci.org/hubot-scripts/hubot-fitbit-leaders)
 
 ## Suggested Setup
 
