@@ -1,7 +1,7 @@
 {
   "name": "hubot-fitbit-leaders",
   "description": "Fitbit leaderboards",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "Stephen Yeargin <stephen@yearg.in>",
   "homepage": "https://github.com/hubot-scripts/hubot-fitbit-leaders",
   "license": "MIT",
