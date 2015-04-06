@@ -89,7 +89,7 @@ module.exports = (robot) ->
       unless user.fullName
         user.fullName = 'the bot'
 
-      msg.send "Friend #{user.fullName} at http://fitbit.com/user/#{user.encodedId}"
+      msg.send "1) Add #{user.fullName} as a friend - http://fitbit.com/user/#{user.encodedId}\n2) Type `#{robot.name} fitbit approve`"
 
   # Approve existing friend requests
   robot.respond /fitbit approve/i, (msg) ->
