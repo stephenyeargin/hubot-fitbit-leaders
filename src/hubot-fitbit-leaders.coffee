@@ -8,7 +8,6 @@
 #  FITBIT_CLIENT_ID
 #  FITBIT_CLIENT_SECRET
 #  FITBIT_OAUTH_TOKEN
-#  FITBIT_OAUTH_TOKEN_SECRET
 #
 # Commands:
 #   hubot fitbit leaders - Show table of leaders
@@ -16,7 +15,8 @@
 #   hubot fitbit approve - Approve all pending requests
 #
 # Notes:
-#   To obtain/set the FITBIT_OAUTH_TOKEN / FITBIT_OAUTH_TOKEN_SECRET, you will need to go through the OAuth handshake manually with your bot's credentials
+#   To obtain/set the FITBIT_OAUTH_TOKEN, you will need to visit the "Implicit"
+#   authorization URL. This will grant you a non-refreshable token for a year.
 #
 # Authors:
 #   stephenyeargin, hogepodge
@@ -25,16 +25,26 @@ Util = require 'util'
 moment = require 'moment'
 
 module.exports = (robot) ->
-  config = secrets:
-    clientId: process.env.FITBIT_CLIENT_ID
-    clientSecret: process.env.FITBIT_CLIENT_SECRET
-    oauthToken: process.env.FITBIT_OAUTH_TOKEN
-    oauthTokenSecret: process.env.FITBIT_OAUTH_TOKEN_SECRET
-  fitbit = require("fitbit-js")(config.secrets.clientId, config.secrets.clientSecret)
+  FitbitApiClient = require 'fitbit-node'
+  Fitbit = new FitbitApiClient(
+    process.env.FITBIT_CLIENT_ID, process.env.FITBIT_CLIENT_SECRET
+  )
+  accessToken = process.env.FITBIT_OAUTH_TOKEN
 
   # Default action
   robot.respond /fitbit$/i, (msg) ->
     getLeaderboard(msg)
+
+  # Set up or renew the token
+  robot.respond /fitbit (?:token|setup)$/i, (msg) ->
+    url = "" +
+      "https://www.fitbit.com/oauth2/authorize?response_type=token" +
+      "&client_id=#{process.env.FITBIT_CLIENT_ID}" +
+      "&redirect_uri=<YOUR REDIRECT URL>" +
+      "&scope=profile%20social&expires_in=31536000"
+    msg.send "1) Go to: #{url}"
+    msg.send "2) Save the URL token in the bot's configuration"
+    msg.send "3) Restart Hubot to load configuration"
 
   # Show the top five users
   robot.respond /fitbit (steps|leaderboard|leaders)/i, (msg) ->
@@ -42,16 +52,10 @@ module.exports = (robot) ->
 
   # Who are my friends?
   robot.respond /fitbit friends/i, (msg) ->
-    params =
-      token:
-        oauth_token: config.secrets.oauthToken
-        oauth_token_secret: config.secrets.oauthTokenSecret
-    fitbit.apiCall 'GET', '/user/-/friends.json', params, (err, response, json) ->
-      if err?
-        displayErrors err, msg
-        return
-      robot.logger.debug json
-      friends = json.friends
+    Fitbit.get('/friends.json', accessToken)
+    .then (res) ->
+      robot.logger.debug res
+      friends = getResponseBody(res).friends
       if friends.length > 0
         list = []
         for own key, friend of friends
@@ -59,62 +63,46 @@ module.exports = (robot) ->
         msg.send list.join(", ")
       else
         msg.send "You have no friends on Fitbit. :("
+    .catch (error) ->
+      displayErrors(error, msg)
 
   # See how to friend the bot
   robot.respond /fitbit register/i, (msg) ->
-    params =
-      token:
-        oauth_token: config.secrets.oauthToken
-        oauth_token_secret: config.secrets.oauthTokenSecret
-    fitbit.apiCall 'GET', '/user/-/profile.json', params, (err, response, json) ->
-      if err?
-        displayErrors err, msg
-        return
+    Fitbit.get('/profile.json', accessToken)
+    .then (res) ->
       robot.logger.debug json
-      user = json.user
+      user = getResponseBody(res).user
       unless user.fullName
         user.fullName = 'the bot'
       msg.send "1) Add #{user.fullName} as a friend - http://fitbit.com/user/#{user.encodedId}\n2) Type `#{robot.name} fitbit approve`"
+    .catch (error) ->
+      displayErrors(error, msg)
 
   # Approve existing friend requests
   robot.respond /fitbit approve/i, (msg) ->
-    params =
-      token:
-        oauth_token: config.secrets.oauthToken
-        oauth_token_secret: config.secrets.oauthTokenSecret
-    fitbit.apiCall 'GET', '/user/-/friends/invitations.json', params, (err, response, json) ->
-      if err?
-        displayErrors err, msg
-        return
+    Fitbit.get('/friends/invitations.json', accessToken)
+    .then (res) ->
       robot.logger.debug json
-      requests = json.friends
-      if json.friends.length is 0
+      if getResponseBody(res).friends.length is 0
         msg.send "No pending requests."
         return
-      for own key, friend of requests
+      for own key, friend of getResponseBody(res).friends
         params =
-          token:
-            oauth_token: config.secrets.oauthToken
-            oauth_token_secret: config.secrets.oauthTokenSecret
           accept: true
-        fitbit.apiCall 'POST', "/user/-/friends/invitations/#{friend.user.encodedId}.json", params, (err, response, json) ->
-          if err?
-            displayErrors err, msg
-            return
+        Fitbit.post("/friends/invitations/#{friend.user.encodedId}.json", accessToken, params)
+        .then (res) ->
           msg.send "Approve: #{friend.user.displayName}"
+        .catch (error) ->
+          displayErrors(error, msg)
+    .catch (error) ->
+      displayErrors(error, msg)
 
   getLeaderboard = (msg) ->
     try
-      params =
-        token:
-          oauth_token: config.secrets.oauthToken
-          oauth_token_secret: config.secrets.oauthTokenSecret
-      fitbit.apiCall 'GET', '/user/-/friends/leaderboard.json', params, (err, response, json) ->
-        if err?
-          displayErrors err, msg
-          return
-        robot.logger.debug json
-        leaders = json.friends
+      Fitbit.get('/friends/leaderboard.json', accessToken)
+      .then (res) ->
+        robot.logger.debug res
+        leaders = getResponseBody(res).friends
         sortedleaders = []
         for own key, leader of leaders
           robot.logger.debug leader
@@ -127,8 +115,13 @@ module.exports = (robot) ->
             rank = leader.rank.steps * 1 # force conversion to a number
             sortedleaders[rank] = "##{leader.rank.steps} #{leader.user.displayName} - #{formatThousands(leader.summary.steps)}#{last_sync}"
         msg.send sortedleaders.join("\n")
+      .catch (error) ->
+        displayErrors(error, msg)
     catch err
       msg.send "Unable to retrieve leaderboard."
+
+  getResponseBody = (res) ->
+    return res[0]
 
   displayErrors = (err, msg) ->
     robot.logger.error err
