@@ -15,6 +15,9 @@ describe 'hubot-fitbit-leaders', ->
   it 'registers a respond listener for fitbit', ->
     expect(@robot.respond).to.have.been.calledWith(/fitbit$/i)
 
+  it 'registers a respond listener for fitbit setup', ->
+    expect(@robot.respond).to.have.been.calledWith(/fitbit (?:token|setup)$/i)
+
   it 'registers a respond listener for fitbit friends', ->
     expect(@robot.respond).to.have.been.calledWith(/fitbit friends/i)
 
