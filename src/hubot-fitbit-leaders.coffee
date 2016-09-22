@@ -70,7 +70,7 @@ module.exports = (robot) ->
   robot.respond /fitbit register/i, (msg) ->
     Fitbit.get('/profile.json', accessToken)
     .then (res) ->
-      robot.logger.debug json
+      robot.logger.debug res
       user = getResponseBody(res).user
       unless user.fullName
         user.fullName = 'the bot'
@@ -82,7 +82,7 @@ module.exports = (robot) ->
   robot.respond /fitbit approve/i, (msg) ->
     Fitbit.get('/friends/invitations.json', accessToken)
     .then (res) ->
-      robot.logger.debug json
+      robot.logger.debug res
       if getResponseBody(res).friends.length is 0
         msg.send "No pending requests."
         return
