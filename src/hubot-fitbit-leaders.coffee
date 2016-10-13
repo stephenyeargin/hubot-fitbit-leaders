@@ -2,7 +2,8 @@
 #   Fitbit leaderboards
 #
 # Dependencies:
-#   "fitbit-js": "0.2.0"
+#  "fitbit-node": "^2.0.2",
+#  "moment": "^2.14.1"
 #
 # Configuration:
 #  FITBIT_CLIENT_ID
@@ -54,7 +55,7 @@ module.exports = (robot) ->
   robot.respond /fitbit friends/i, (msg) ->
     Fitbit.get('/friends.json', accessToken)
     .then (res) ->
-      robot.logger.debug res
+      robot.logger.debug getResponseBody(res)
       friends = getResponseBody(res).friends
       if friends.length > 0
         list = []
@@ -70,7 +71,7 @@ module.exports = (robot) ->
   robot.respond /fitbit register/i, (msg) ->
     Fitbit.get('/profile.json', accessToken)
     .then (res) ->
-      robot.logger.debug res
+      robot.logger.debug getResponseBody(res)
       user = getResponseBody(res).user
       unless user.fullName
         user.fullName = 'the bot'
@@ -82,7 +83,7 @@ module.exports = (robot) ->
   robot.respond /fitbit approve/i, (msg) ->
     Fitbit.get('/friends/invitations.json', accessToken)
     .then (res) ->
-      robot.logger.debug res
+      robot.logger.debug getResponseBody(res)
       if getResponseBody(res).friends.length is 0
         msg.send "No pending requests."
         return
@@ -91,6 +92,7 @@ module.exports = (robot) ->
           accept: true
         Fitbit.post("/friends/invitations/#{friend.user.encodedId}.json", accessToken, params)
         .then (res) ->
+          robot.logger.debug getResponseBody(res)
           msg.send "Approve: #{friend.user.displayName}"
         .catch (error) ->
           displayErrors(error, msg)
@@ -101,7 +103,7 @@ module.exports = (robot) ->
     try
       Fitbit.get('/friends/leaderboard.json', accessToken)
       .then (res) ->
-        robot.logger.debug res
+        robot.logger.debug getResponseBody(res)
         leaders = getResponseBody(res).friends
         sortedleaders = []
         for own key, leader of leaders
