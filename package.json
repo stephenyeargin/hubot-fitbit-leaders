@@ -18,7 +18,7 @@
     "url": "https://github.com/stephenyeargin/hubot-fitbit-leaders/issues"
   },
   "dependencies": {
-    "fitbit-node": "^2.0.1",
+    "fitbit-node": "^2.0.2",
     "moment": "^2.14.1"
   },
   "devDependencies": {
