@@ -28,7 +28,9 @@ moment = require 'moment'
 module.exports = (robot) ->
   FitbitApiClient = require 'fitbit-node'
   Fitbit = new FitbitApiClient(
-    process.env.FITBIT_CLIENT_ID, process.env.FITBIT_CLIENT_SECRET
+    clientId: process.env.FITBIT_CLIENT_ID,
+    clientSecret: process.env.FITBIT_CLIENT_SECRET,
+    apiVersion: '1.2'
   )
   accessToken = process.env.FITBIT_OAUTH_TOKEN
 
