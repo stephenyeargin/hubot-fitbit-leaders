@@ -68,9 +68,7 @@ describe 'hubot-fitbit-leaders', ->
         try
           expect(selfRoom.messages).to.eql [
             ['alice', '@hubot fitbit setup']
-            ['hubot', '1) Go to: https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=abc123&redirect_uri=<YOUR REDIRECT URL>&scope=profile%20social&expires_in=31536000']
-            ['hubot', '2) Save the URL token in the bot\'s configuration']
-            ['hubot', '3) Restart Hubot to load configuration']
+            ['hubot', "1) Go to: https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=abc123&redirect_uri=<YOUR REDIRECT URL>&scope=profile%20social&expires_in=31536000\n2) Save the URL token in the bot's configuration\n3) Restart Hubot to load configuration"]
           ]
           done()
         catch err
