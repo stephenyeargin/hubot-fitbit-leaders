@@ -1,7 +1,7 @@
 {
   "name": "hubot-fitbit-leaders",
   "description": "Hubot Fitbit Leaders",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "author": "Stephen Yeargin <stephen@yearg.in>",
   "homepage": "https://github.com/stephenyeargin/hubot-fitbit-leaders",
   "license": "MIT",
