@@ -1,0 +1,25 @@
+{
+  "friends": [
+    {
+      "dateTime": "2012-06-05T02:26:29.000",
+      "user": {
+        "aboutMe": "I live in San Francisco.",
+        "avatar": "http://www.fitbit.com/images/profile/defaultProfile_100_male.gif",
+        "city": "San Francisco",
+        "country": "US",
+        "dateOfBirth": "1970-02-18",
+        "displayName": "Nick",
+        "encodedId": "257V3V",
+        "fullName": "Fitbit",
+        "gender": "MALE",
+        "height": 176.7,
+        "offsetFromUTCMillis": 25200000,
+        "state": "CA",
+        "strideLengthRunning": 0,
+        "strideLengthWalking": 0,
+        "timezone": "America/Los_Angeles",
+        "weight": 80.5
+      }
+    }
+  ]
+}

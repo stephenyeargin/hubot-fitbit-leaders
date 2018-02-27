@@ -1,7 +1,10 @@
 language: node_js
 node_js:
-  - "6.1.0"
-  - "5.11.0"
-  - "4.4.0"
+  - "node"
+  - "6"
+sudo: false
+cache:
+  directories:
+    - node_modules
 notifications:
   email: false
