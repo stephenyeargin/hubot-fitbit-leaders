@@ -156,7 +156,7 @@ describe 'hubot-fitbit-leaders', ->
         try
           expect(selfRoom.messages).to.eql [
             ['alice', '@hubot fitbit leaders']
-            ['hubot', 'Your Fitbit token has expired! See `hubot token` to set up a new one.']
+            ['hubot', 'Your Fitbit token has expired! See `hubot fitbit token` to set up a new one.']
           ]
           done()
         catch err

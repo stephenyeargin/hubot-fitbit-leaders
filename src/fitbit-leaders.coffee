@@ -153,7 +153,7 @@ module.exports = (robot) ->
   displayErrors = (err, msg) ->
     for own key, error of err.errors
       if error.errorType == 'expired_token'
-        msg.send "Your Fitbit token has expired! See `#{robot.name} token` to set up a new one."
+        msg.send "Your Fitbit token has expired! See `#{robot.name} fitbit token` to set up a new one."
       else
         robot.logger.error err
         msg.send error.message
