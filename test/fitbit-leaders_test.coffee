@@ -11,28 +11,13 @@ describe 'hubot-fitbit-leaders', ->
     process.env.HUBOT_LOG_LEVEL = 'error'
     nock.disableNetConnect()
 
-    nock('https://api.fitbit.com:443')
-      .get('/1.2/user/-/friends/leaderboard.json')
-      .replyWithFile(200, __dirname + '/fixtures/leaderboard.json')
-    nock('https://api.fitbit.com:443')
-      .get('/1.2/user/-/profile.json')
-      .replyWithFile(200, __dirname + '/fixtures/profile.json')
-    nock('https://api.fitbit.com:443')
-      .get('/1.2/user/-/friends.json')
-      .replyWithFile(200, __dirname + '/fixtures/friends.json')
-    nock('https://api.fitbit.com:443')
-      .get('/1.2/user/-/friends/invitations.json')
-      .replyWithFile(200, __dirname + '/fixtures/invitations.json')
-    nock('https://api.fitbit.com:443')
-      .post('/1.2/user/-/friends/invitations/257V3V.json')
-      .replyWithFile(200, __dirname + '/fixtures/invitations-257V3V.json')
-
   afterEach ->
     nock.cleanAll()
     delete process.env.HUBOT_LOG_LEVEL
 
   context 'basic tests', ->
     beforeEach ->
+      process.env.HUBOT_LOG_LEVEL = 'error'
       process.env.FITBIT_CLIENT_ID = 'abc123'
       process.env.FITBIT_CLIENT_SECRET = '123abc456efg'
       process.env.FITBIT_OAUTH_TOKEN = 'hijk123abc456efg789lmnop'
@@ -40,12 +25,17 @@ describe 'hubot-fitbit-leaders', ->
 
     afterEach ->
       @room.destroy()
+      delete process.env.HUBOT_LOG_LEVEL
       delete process.env.FITBIT_CLIENT_ID
       delete process.env.FITBIT_CLIENT_SECRET
       delete process.env.FITBIT_OAUTH_TOKEN
 
     # hubot fitbit leaders
     it 'returns the leaderboard of your friends', (done) ->
+      nock('https://api.fitbit.com:443')
+        .get('/1.2/user/-/friends/leaderboard.json')
+        .replyWithFile(200, __dirname + '/fixtures/leaderboard.json')
+
       selfRoom = @room
       selfRoom.user.say('alice', '@hubot fitbit leaders')
       setTimeout(() ->
@@ -78,6 +68,10 @@ describe 'hubot-fitbit-leaders', ->
 
     # hubot fitbit register
     it 'returns registration instructions', (done) ->
+      nock('https://api.fitbit.com:443')
+        .get('/1.2/user/-/profile.json')
+        .replyWithFile(200, __dirname + '/fixtures/profile.json')
+
       selfRoom = @room
       selfRoom.user.say('alice', '@hubot fitbit register')
       setTimeout(() ->
@@ -94,6 +88,10 @@ describe 'hubot-fitbit-leaders', ->
     
     # hubot fitbit friends
     it 'returns a list of friends', (done) ->
+      nock('https://api.fitbit.com:443')
+        .get('/1.2/user/-/friends.json')
+        .replyWithFile(200, __dirname + '/fixtures/friends.json')
+
       selfRoom = @room
       selfRoom.user.say('alice', '@hubot fitbit friends')
       setTimeout(() ->
@@ -110,6 +108,13 @@ describe 'hubot-fitbit-leaders', ->
 
     # hubot fitbit approve
     it 'approves pending friend requests', (done) ->
+      nock('https://api.fitbit.com:443')
+        .get('/1.2/user/-/friends/invitations.json')
+        .replyWithFile(200, __dirname + '/fixtures/invitations.json')
+      nock('https://api.fitbit.com:443')
+        .post('/1.2/user/-/friends/invitations/257V3V.json')
+        .replyWithFile(200, __dirname + '/fixtures/invitations-257V3V.json')
+
       selfRoom = @room
       selfRoom.user.say('alice', '@hubot fitbit approve')
       setTimeout(() ->
@@ -117,6 +122,41 @@ describe 'hubot-fitbit-leaders', ->
           expect(selfRoom.messages).to.eql [
             ['alice', '@hubot fitbit approve']
             ['hubot', 'Approve: Nick']
+          ]
+          done()
+        catch err
+          done err
+        return
+      , 1000)
+
+  context 'expired token', ->
+    beforeEach ->
+      process.env.HUBOT_LOG_LEVEL = 'error'
+      process.env.FITBIT_CLIENT_ID = 'abc123'
+      process.env.FITBIT_CLIENT_SECRET = '123abc456efg'
+      process.env.FITBIT_OAUTH_TOKEN = 'hijk123abc456efg789lmnop'
+      @room = helper.createRoom()
+
+    afterEach ->
+      @room.destroy()
+      delete process.env.HUBOT_LOG_LEVEL
+      delete process.env.FITBIT_CLIENT_ID
+      delete process.env.FITBIT_CLIENT_SECRET
+      delete process.env.FITBIT_OAUTH_TOKEN
+
+    # hubot fitbit leaders
+    it 'display an error for an expired token', (done) ->
+      nock('https://api.fitbit.com:443')
+        .get('/1.2/user/-/friends/leaderboard.json')
+        .replyWithFile(401, __dirname + '/fixtures/error-token-expired.json')
+
+      selfRoom = @room
+      selfRoom.user.say('alice', '@hubot fitbit leaders')
+      setTimeout(() ->
+        try
+          expect(selfRoom.messages).to.eql [
+            ['alice', '@hubot fitbit leaders']
+            ['hubot', 'Your Fitbit token has expired! See `hubot token` to set up a new one.']
           ]
           done()
         catch err

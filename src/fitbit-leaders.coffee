@@ -59,8 +59,10 @@ module.exports = (robot) ->
   robot.respond /fitbit friends/i, (msg) ->
     Fitbit.get('/friends.json', accessToken)
     .then (res) ->
-      robot.logger.debug getResponseBody(res)
-      friends = getResponseBody(res).friends
+      responseBody = getResponseBody(res)
+      responseHeaders = getResponseHeaders(res)
+      return displayErrors(responseBody, msg) if responseHeaders.statusCode != 200
+      friends = responseBody.friends
       if friends.length > 0
         list = []
         for own key, friend of friends
@@ -75,8 +77,10 @@ module.exports = (robot) ->
   robot.respond /fitbit register/i, (msg) ->
     Fitbit.get('/profile.json', accessToken)
     .then (res) ->
-      robot.logger.debug getResponseBody(res)
-      user = getResponseBody(res).user
+      responseBody = getResponseBody(res)
+      responseHeaders = getResponseHeaders(res)
+      return displayErrors(responseBody, msg) if responseHeaders.statusCode != 200
+      user = responseBody.user
       unless user.fullName
         user.fullName = 'the bot'
       userId = user.encodedId
@@ -91,8 +95,10 @@ module.exports = (robot) ->
   robot.respond /fitbit approve/i, (msg) ->
     Fitbit.get('/friends/invitations.json', accessToken)
     .then (res) ->
-      robot.logger.debug getResponseBody(res)
-      if getResponseBody(res).friends.length is 0
+      responseBody = getResponseBody(res)
+      responseHeaders = getResponseHeaders(res)
+      return displayErrors(responseBody, msg) if responseHeaders.statusCode != 200
+      if responseBody.friends.length is 0
         msg.send "No pending requests."
         return
       for own key, friend of getResponseBody(res).friends
@@ -115,8 +121,10 @@ module.exports = (robot) ->
     try
       Fitbit.get('/friends/leaderboard.json', accessToken)
       .then (res) ->
-        robot.logger.debug getResponseBody(res)
-        leaders = getResponseBody(res).friends
+        responseBody = getResponseBody(res)
+        responseHeaders = getResponseHeaders(res)
+        return displayErrors(responseBody, msg) if responseHeaders.statusCode != 200
+        leaders = responseBody.friends
         finalLeaders = []
         for own key, leader of leaders
           robot.logger.debug leader
@@ -139,10 +147,16 @@ module.exports = (robot) ->
   getResponseBody = (res) ->
     return res[0]
   
+  getResponseHeaders = (res) ->
+    return res[1]
+  
   displayErrors = (err, msg) ->
-    robot.logger.error err
-    for own key, error of err.data.errors
-      msg.send error.message
+    for own key, error of err.errors
+      if error.errorType == 'expired_token'
+        msg.send "Your Fitbit token has expired! See `#{robot.name} token` to set up a new one."
+      else
+        robot.logger.error err
+        msg.send error.message
   
   formatThousands = (num) ->
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")

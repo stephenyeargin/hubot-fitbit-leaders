@@ -1,0 +1,1 @@
+{"errors":[{"errorType":"expired_token","message":"Access token expired: hijk123abc456efg789lmnop. Visit https://dev.fitbit.com/docs/oauth2 for more information on the Fitbit Web API authorization process."}],"success":false}
