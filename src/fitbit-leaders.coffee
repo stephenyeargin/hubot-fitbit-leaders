@@ -1,10 +1,6 @@
 # Description:
 #   Fitbit leaderboards
 #
-# Dependencies:
-#  "fitbit-node": "^2.0.2"
-#  "moment": "^2.14.1"
-#
 # Configuration:
 #  FITBIT_CLIENT_ID
 #  FITBIT_CLIENT_SECRET
