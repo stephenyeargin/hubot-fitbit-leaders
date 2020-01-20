@@ -1,18 +1,1 @@
-{
-    "user": {
-      "aboutMe": "I live in San Francisco.",
-      "avatar": "http://www.fitbit.com/images/profile/defaultProfile_100_male.gif",
-      "city": "San Francisco",
-      "country": "US",
-      "dateOfBirth": "1970-02-18",
-      "displayName": "Nick",
-      "encodedId": "257V3V",
-      "fullName": "Fitbit",
-      "gender": "MALE",
-      "height": 176.7,
-      "offsetFromUTCMillis": -25200000,
-      "state": "CA",
-      "timezone": "America/Los_Angeles",
-      "weight": 80.5
-    }
-}
+{"user":{"age":50,"ambassador":false,"avatar":"https://static0.fitbit.com/images/profile/defaultProfile_100.png","avatar150":"https://static0.fitbit.com/images/profile/defaultProfile_150.png","avatar640":"https://static0.fitbit.com/images/profile/defaultProfile_640.png","averageDailySteps":0,"challengesBeta":true,"clockTimeDisplayFormat":"12hour","corporate":false,"corporateAdmin":false,"dateOfBirth":"1970-01-01","displayName":"Fitbit","displayNameSetting":"name","distanceUnit":"en_US","encodedId":"257V3V","features":{"exerciseGoal":true,"phoneNumberFriendFinding":{"algorithm":"SHA-256","countries":["CN"],"salt":"UY9M1E70VQE3UAA4"}},"firstName":"Fitbit","fullName":"Fitbit Bot","gender":"FEMALE","glucoseUnit":"en_US","height":162.60000000000002,"heightUnit":"en_US","isBugReportEnabled":false,"isChild":false,"isCoach":false,"languageLocale":"en_US","lastName":"Bot","locale":"en_US","memberSince":"2017-03-20","mfaEnabled":false,"offsetFromUTCMillis":-28800000,"sleepTracking":"Normal","startDayOfWeek":"SUNDAY","strideLengthRunning":86.9,"strideLengthRunningType":"default","strideLengthWalking":67.2,"strideLengthWalkingType":"default","swimUnit":"en_US","timezone":"America/Los_Angeles","topBadges":[],"weight":0,"weightUnit":"en_US"}}

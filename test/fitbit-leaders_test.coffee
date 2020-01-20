@@ -42,7 +42,7 @@ describe 'hubot-fitbit-leaders', ->
         try
           expect(selfRoom.messages).to.eql [
             ['alice', '@hubot fitbit leaders']
-            ['hubot', "\n#1 Nick - 56,000\n#2 Fitbit U. - 45,000"]
+            ['hubot', "\n#1 Stephen Y. - 15,220\n#2 Jason T. - 11,752"]
           ]
           done()
         catch err
@@ -78,7 +78,7 @@ describe 'hubot-fitbit-leaders', ->
         try
           expect(selfRoom.messages).to.eql [
             ['alice', '@hubot fitbit register']
-            ['hubot', '1) Add Fitbit as a friend - http://fitbit.com/user/257V3V\n2) Type `hubot fitbit approve`']
+            ['hubot', '1) Add Fitbit Bot as a friend - http://fitbit.com/user/257V3V\n2) Type `hubot fitbit approve`']
           ]
           done()
         catch err
@@ -98,7 +98,7 @@ describe 'hubot-fitbit-leaders', ->
         try
           expect(selfRoom.messages).to.eql [
             ['alice', '@hubot fitbit friends']
-            ['hubot', 'Nick, Fitbit U.']
+            ['hubot', 'Stephen Y.']
           ]
           done()
         catch err
@@ -112,8 +112,8 @@ describe 'hubot-fitbit-leaders', ->
         .get('/1.1/user/-/friends/invitations.json')
         .replyWithFile(200, __dirname + '/fixtures/invitations.json')
       nock('https://api.fitbit.com:443')
-        .post('/1.1/user/-/friends/invitations/257V3V.json')
-        .replyWithFile(200, __dirname + '/fixtures/invitations-257V3V.json')
+        .post('/1.1/user/-/friends/invitations/24M3J7.json')
+          .reply(201)
 
       selfRoom = @room
       selfRoom.user.say('alice', '@hubot fitbit approve')
@@ -121,7 +121,7 @@ describe 'hubot-fitbit-leaders', ->
         try
           expect(selfRoom.messages).to.eql [
             ['alice', '@hubot fitbit approve']
-            ['hubot', 'Approve: Nick']
+            ['hubot', 'Approved: Stephen Y.']
           ]
           done()
         catch err

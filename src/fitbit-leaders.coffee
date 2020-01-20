@@ -61,11 +61,11 @@ module.exports = (robot) ->
       responseBody = getResponseBody(res)
       responseHeaders = getResponseHeaders(res)
       return displayErrors(responseBody, msg) if responseHeaders.statusCode != 200
-      friends = responseBody.friends
+      friends = responseBody.data
       if friends.length > 0
         list = []
         for own key, friend of friends
-          list.push "#{friend.user.displayName}"
+          list.push "#{friend.attributes.name}"
         msg.send list.join(", ")
       else
         msg.send "You have no friends on Fitbit. :("
@@ -97,20 +97,20 @@ module.exports = (robot) ->
       responseBody = getResponseBody(res)
       responseHeaders = getResponseHeaders(res)
       return displayErrors(responseBody, msg) if responseHeaders.statusCode != 200
-      if responseBody.friends.length is 0
+      if responseBody.data.length is 0
         msg.send "No pending requests."
         return
-      for own key, friend of getResponseBody(res).friends
+      for own key, friend of responseBody.included
         params =
           accept: true
         getFitbitClient('1.1').post(
-          "/friends/invitations/#{friend.user.encodedId}.json",
+          "/friends/invitations/#{friend.id}.json",
           accessToken,
           params
         )
         .then (res) ->
           robot.logger.debug getResponseBody(res)
-          msg.send "Approve: #{friend.user.displayName}"
+          msg.send "Approved: #{friend.attributes.name}"
         .catch (error) ->
           displayErrors(error, msg)
     .catch (error) ->
@@ -123,20 +123,18 @@ module.exports = (robot) ->
         responseBody = getResponseBody(res)
         responseHeaders = getResponseHeaders(res)
         return displayErrors(responseBody, msg) if responseHeaders.statusCode != 200
-        leaders = responseBody.friends
+        leaders = responseBody.data
+        relatedData = responseBody.included
+        people = {}
+        for person in relatedData
+          people[person.id] = person
         finalLeaders = []
         for own key, leader of leaders
-          robot.logger.debug leader
-          if leader.summary.steps > 0
-            # Show a time-ago if user hasn't synced
-            if moment(leader.lastUpdateTime) < moment().subtract(1, 'days')
-              lastSync = " (#{moment(leader.lastUpdateTime).fromNow()})"
-            else
-              lastSync = ''
-            rank = leader.rank.steps * 1 # force conversion to a number
-            displayName = leader.user.displayName || 'Unknown'
-            steps = formatThousands(leader.summary.steps) || 0
-            finalLeaders[rank] = "##{rank} #{displayName} - #{steps}#{lastSync}"
+          if leader.attributes && leader.attributes['step-summary'] > 0
+            rank = leader.attributes['step-rank']
+            displayName = people[leader.id].attributes.name || 'Unknown'
+            steps = formatThousands(leader.attributes['step-summary']) || 0
+            finalLeaders[rank] = "##{rank} #{displayName} - #{steps}"
         msg.send finalLeaders.join("\n")
       .catch (error) ->
         displayErrors(error, msg)
@@ -150,6 +148,7 @@ module.exports = (robot) ->
     return res[1]
   
   displayErrors = (err, msg) ->
+    robot.logger.debug err
     for own key, error of err.errors
       if error.errorType == 'expired_token'
         msg.send "Your Fitbit token has expired! See `#{robot.name} fitbit token` to set up a new one."
