@@ -26,9 +26,10 @@ You will need to update your `FITBIT_CLIENT_ID` and generate a new `FITBIT_OAUTH
 
 | Environment Variable   | Description                                     |
 | -----------------------| ------------------------------------------------|
-| `FITBIT_CLIENT_ID`     | Obtained from the app registration.             | 
-| `FITBIT_CLIENT_SECRET` | Obtained from the app registration.             | 
-| `FITBIT_OAUTH_TOKEN`   | Found in the callback response, lasts one year. | 
+| `FITBIT_CLIENT_ID`     | Obtained from the app registration.             |
+| `FITBIT_CLIENT_SECRET` | Obtained from the app registration.             |
+| `FITBIT_REDIRECT_URL`  | Redirect URL, must mach app registration.       |
+| `FITBIT_OAUTH_TOKEN`   | Found in the callback response, lasts one year. |
 
 Register the three values as environment variables when starting your bot (as usual with Hubot scripts) using `export` or `heroku config:set` or whatever applies to your Hubot hosting environment.
 

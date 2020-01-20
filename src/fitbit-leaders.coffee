@@ -5,6 +5,7 @@
 #  FITBIT_CLIENT_ID
 #  FITBIT_CLIENT_SECRET
 #  FITBIT_OAUTH_TOKEN
+#  FITBIT_REDIRECT_URL
 #
 # Commands:
 #   hubot fitbit leaders - Show table of leaders
@@ -23,12 +24,14 @@ moment = require 'moment'
 
 module.exports = (robot) ->
   FitbitApiClient = require 'fitbit-node'
-  Fitbit = new FitbitApiClient(
-    clientId: process.env.FITBIT_CLIENT_ID,
-    clientSecret: process.env.FITBIT_CLIENT_SECRET,
-    apiVersion: '1.2'
-  )
+  getFitbitClient = (apiVersion) ->
+    new FitbitApiClient(
+      clientId: process.env.FITBIT_CLIENT_ID,
+      clientSecret: process.env.FITBIT_CLIENT_SECRET,
+      apiVersion: apiVersion || '1.2'
+    )
   accessToken = process.env.FITBIT_OAUTH_TOKEN
+  redirectUri = process.env.FITBIT_REDIRECT_URL || 'http://localhost/'
   
   # Default action
   robot.respond /fitbit$/i, (msg) ->
@@ -39,11 +42,11 @@ module.exports = (robot) ->
     url = "" +
       "https://www.fitbit.com/oauth2/authorize?response_type=token" +
       "&client_id=#{process.env.FITBIT_CLIENT_ID}" +
-      "&redirect_uri=<YOUR REDIRECT URL>" +
+      "&redirect_uri=#{redirectUri}" +
       "&scope=profile%20social&expires_in=31536000"
     msg.send """
        1) Go to: #{url}
-       2) Save the URL token in the bot's configuration
+       2) Save the URL token in the bot's configuration as FITBIT_OAUTH_TOKEN
        3) Restart Hubot to load configuration
     """
   
@@ -53,7 +56,7 @@ module.exports = (robot) ->
   
   # Who are my friends?
   robot.respond /fitbit friends/i, (msg) ->
-    Fitbit.get('/friends.json', accessToken)
+    getFitbitClient('1.1').get('/friends.json', accessToken)
     .then (res) ->
       responseBody = getResponseBody(res)
       responseHeaders = getResponseHeaders(res)
@@ -71,7 +74,7 @@ module.exports = (robot) ->
   
   # See how to friend the bot
   robot.respond /fitbit register/i, (msg) ->
-    Fitbit.get('/profile.json', accessToken)
+    getFitbitClient('1').get('/profile.json', accessToken)
     .then (res) ->
       responseBody = getResponseBody(res)
       responseHeaders = getResponseHeaders(res)
@@ -89,7 +92,7 @@ module.exports = (robot) ->
   
   # Approve existing friend requests
   robot.respond /fitbit approve/i, (msg) ->
-    Fitbit.get('/friends/invitations.json', accessToken)
+    getFitbitClient('1.1').get('/friends/invitations.json', accessToken)
     .then (res) ->
       responseBody = getResponseBody(res)
       responseHeaders = getResponseHeaders(res)
@@ -100,7 +103,7 @@ module.exports = (robot) ->
       for own key, friend of getResponseBody(res).friends
         params =
           accept: true
-        Fitbit.post(
+        getFitbitClient('1.1').post(
           "/friends/invitations/#{friend.user.encodedId}.json",
           accessToken,
           params
@@ -115,7 +118,7 @@ module.exports = (robot) ->
   
   getLeaderboard = (msg) ->
     try
-      Fitbit.get('/friends/leaderboard.json', accessToken)
+      getFitbitClient('1.1').get('/leaderboard/friends.json', accessToken)
       .then (res) ->
         responseBody = getResponseBody(res)
         responseHeaders = getResponseHeaders(res)
