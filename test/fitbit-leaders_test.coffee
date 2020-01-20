@@ -33,7 +33,7 @@ describe 'hubot-fitbit-leaders', ->
     # hubot fitbit leaders
     it 'returns the leaderboard of your friends', (done) ->
       nock('https://api.fitbit.com:443')
-        .get('/1.2/user/-/friends/leaderboard.json')
+        .get('/1.1/user/-/leaderboard/friends.json')
         .replyWithFile(200, __dirname + '/fixtures/leaderboard.json')
 
       selfRoom = @room
@@ -58,7 +58,7 @@ describe 'hubot-fitbit-leaders', ->
         try
           expect(selfRoom.messages).to.eql [
             ['alice', '@hubot fitbit setup']
-            ['hubot', "1) Go to: https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=abc123&redirect_uri=<YOUR REDIRECT URL>&scope=profile%20social&expires_in=31536000\n2) Save the URL token in the bot's configuration\n3) Restart Hubot to load configuration"]
+            ['hubot', "1) Go to: https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=abc123&redirect_uri=http://localhost/&scope=profile%20social&expires_in=31536000\n2) Save the URL token in the bot's configuration as FITBIT_OAUTH_TOKEN\n3) Restart Hubot to load configuration"]
           ]
           done()
         catch err
@@ -69,7 +69,7 @@ describe 'hubot-fitbit-leaders', ->
     # hubot fitbit register
     it 'returns registration instructions', (done) ->
       nock('https://api.fitbit.com:443')
-        .get('/1.2/user/-/profile.json')
+        .get('/1/user/-/profile.json')
         .replyWithFile(200, __dirname + '/fixtures/profile.json')
 
       selfRoom = @room
@@ -89,7 +89,7 @@ describe 'hubot-fitbit-leaders', ->
     # hubot fitbit friends
     it 'returns a list of friends', (done) ->
       nock('https://api.fitbit.com:443')
-        .get('/1.2/user/-/friends.json')
+        .get('/1.1/user/-/friends.json')
         .replyWithFile(200, __dirname + '/fixtures/friends.json')
 
       selfRoom = @room
@@ -109,10 +109,10 @@ describe 'hubot-fitbit-leaders', ->
     # hubot fitbit approve
     it 'approves pending friend requests', (done) ->
       nock('https://api.fitbit.com:443')
-        .get('/1.2/user/-/friends/invitations.json')
+        .get('/1.1/user/-/friends/invitations.json')
         .replyWithFile(200, __dirname + '/fixtures/invitations.json')
       nock('https://api.fitbit.com:443')
-        .post('/1.2/user/-/friends/invitations/257V3V.json')
+        .post('/1.1/user/-/friends/invitations/257V3V.json')
         .replyWithFile(200, __dirname + '/fixtures/invitations-257V3V.json')
 
       selfRoom = @room
@@ -147,7 +147,7 @@ describe 'hubot-fitbit-leaders', ->
     # hubot fitbit leaders
     it 'display an error for an expired token', (done) ->
       nock('https://api.fitbit.com:443')
-        .get('/1.2/user/-/friends/leaderboard.json')
+        .get('/1.1/user/-/leaderboard/friends.json')
         .replyWithFile(401, __dirname + '/fixtures/error-token-expired.json')
 
       selfRoom = @room
