@@ -112,7 +112,10 @@ describe 'hubot-fitbit-leaders', ->
         .get('/1.1/user/-/friends/invitations.json')
         .replyWithFile(200, __dirname + '/fixtures/invitations.json')
       nock('https://api.fitbit.com:443')
-        .post('/1.1/user/-/friends/invitations/24M3J7.json')
+        .post('/1.1/user/-/friends/invitations/24M3J7')
+          .query({
+            accept: true
+          })
           .reply(201)
 
       selfRoom = @room

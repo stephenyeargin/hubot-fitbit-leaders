@@ -101,12 +101,9 @@ module.exports = (robot) ->
         msg.send "No pending requests."
         return
       for own key, friend of responseBody.included
-        params =
-          accept: true
         getFitbitClient('1.1').post(
-          "/friends/invitations/#{friend.id}.json",
-          accessToken,
-          params
+          "/friends/invitations/#{friend.id}?accept=true",
+          accessToken
         )
         .then (res) ->
           robot.logger.debug getResponseBody(res)
