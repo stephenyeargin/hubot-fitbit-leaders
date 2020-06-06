@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "fitbit-node": "^2.2.0",
-    "moment": "^2.24.0"
+    "moment": "^2.26.0"
   },
   "peerDependencies": {
     "hubot": "^3"
@@ -27,24 +27,28 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "coffee-script": "^1.12.7",
-    "grunt": "^1.0.4",
+    "grunt": "^1.1.0",
     "grunt-cli": "^1.3.2",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "~0.13.3",
     "hubot-test-helper": "^1.9.0",
-    "husky": "^3.0.9",
+    "husky": "^4.2.5",
     "matchdep": "^2.0.0",
-    "mocha": "^6.2.2",
-    "nock": "^11.4.0",
-    "release-it": "^12.4.3",
-    "sinon": "^7.5.0",
-    "sinon-chai": "^3.3.0"
+    "mocha": "^7.2.0",
+    "nock": "^12.0.3",
+    "release-it": "^13.6.2",
+    "sinon": "^9.0.2",
+    "sinon-chai": "^3.5.0"
   },
   "main": "index.coffee",
   "scripts": {
     "release": "release-it",
-    "precommit": "npm test",
-    "prepush": "npm test",
     "test": "grunt test"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test"
+    }
   }
 }
