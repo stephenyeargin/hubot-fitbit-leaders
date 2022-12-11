@@ -31,8 +31,8 @@
     "husky": "^8.0.2",
     "mocha": "^10.1.0",
     "nock": "^13.2.9",
-    "release-it": "^15.5.0",
-    "sinon": "^14.0.2",
+    "release-it": "^15.5.1",
+    "sinon": "^15.0.0",
     "sinon-chai": "^3.7.0"
   },
   "main": "index.coffee",
