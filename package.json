@@ -22,7 +22,7 @@
     "moment": "^2.29.4"
   },
   "peerDependencies": {
-    "hubot": "^3 || ^4"
+    "hubot": ">=3 || 0.0.0-development"
   },
   "devDependencies": {
     "chai": "^4.3.7",
