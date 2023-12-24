@@ -58,7 +58,7 @@ describe('hubot-fitbit-leaders', () => {
             done(err);
           }
         },
-        1000,
+        100,
       );
     });
 
@@ -78,7 +78,7 @@ describe('hubot-fitbit-leaders', () => {
             done(err);
           }
         },
-        1000,
+        100,
       );
     });
 
@@ -102,7 +102,7 @@ describe('hubot-fitbit-leaders', () => {
             done(err);
           }
         },
-        1000,
+        100,
       );
     });
 
@@ -126,7 +126,7 @@ describe('hubot-fitbit-leaders', () => {
             done(err);
           }
         },
-        1000,
+        100,
       );
     });
 
@@ -156,7 +156,7 @@ describe('hubot-fitbit-leaders', () => {
             done(err);
           }
         },
-        1000,
+        100,
       );
     });
   });
@@ -198,7 +198,7 @@ describe('hubot-fitbit-leaders', () => {
             done(err);
           }
         },
-        1000,
+        100,
       );
     });
   });
