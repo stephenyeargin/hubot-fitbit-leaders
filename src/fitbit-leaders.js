@@ -19,14 +19,55 @@
 // Authors:
 //   stephenyeargin, hogepodge
 
-const FitbitApiClient = require('fitbit-node');
+const https = require('https');
 
 module.exports = (robot) => {
-  const getFitbitClient = (apiVersion) => new FitbitApiClient({
-    clientId: process.env.FITBIT_CLIENT_ID,
-    clientSecret: process.env.FITBIT_CLIENT_SECRET,
-    apiVersion: apiVersion || '1.2',
-  });
+  const getFitbitClient = (apiVersion) => {
+    const version = apiVersion || '1.2';
+
+    const request = (method, path, accessToken) => new Promise((resolve, reject) => {
+      const req = https.request({
+        hostname: 'api.fitbit.com',
+        port: 443,
+        path: `/${version}/user/-${path}`,
+        method,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Accept: 'application/json',
+        },
+      }, (res) => {
+        let body = '';
+        res.setEncoding('utf8');
+        res.on('data', (chunk) => {
+          body += chunk;
+        });
+        res.on('end', () => {
+          let parsedBody = {};
+          try {
+            parsedBody = body ? JSON.parse(body) : {};
+          } catch (err) {
+            reject(err);
+            return;
+          }
+
+          resolve([
+            parsedBody,
+            {
+              statusCode: res.statusCode,
+            },
+          ]);
+        });
+      });
+
+      req.on('error', (err) => reject(err));
+      req.end();
+    });
+
+    return {
+      get: (path, accessToken) => request('GET', path, accessToken),
+      post: (path, accessToken) => request('POST', path, accessToken),
+    };
+  };
   const accessToken = process.env.FITBIT_OAUTH_TOKEN;
   const redirectUri = process.env.FITBIT_REDIRECT_URL || 'http://localhost/';
 
