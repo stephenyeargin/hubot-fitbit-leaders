@@ -29,7 +29,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^9.0.10",
     "mocha": "^11.8.0",
-    "nock": "^13.5.1",
+    "nock": "^14.0.17",
     "sinon": "^22.1.0",
     "sinon-chai": "^3.7.0"
   },
