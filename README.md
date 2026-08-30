@@ -1,5 +1,8 @@
 # Hubot Fitbit Leaders
 
+> [!WARNING]
+> **This project is deprecated and no longer maintained.** Google is shutting down the legacy Fitbit Web API in September 2026 as part of the migration to the Google Health API. The friends, leaderboard, and friend-request endpoints this script depends on (/friends.json, /friends/invitations.json, /leaderboard/friends.json) have no equivalent in the replacement API — Google Health's data types and OAuth scopes cover only individual health/fitness metrics (activity, sleep, vitals, nutrition, etc.) and expose no social graph or leaderboard data to third-party apps. As a result, there is no way to rewrite this script against the new API with the same functionality, and it will stop working entirely once the legacy API is decommissioned.
+
 [![npm version](https://badge.fury.io/js/hubot-fitbit-leaders.svg)](http://badge.fury.io/js/hubot-fitbit-leaders) [![Node CI](https://github.com/stephenyeargin/hubot-fitbit-leaders/actions/workflows/nodejs.yml/badge.svg)](https://github.com/stephenyeargin/hubot-fitbit-leaders/actions/workflows/nodejs.yml)
 
 This script is designed to be used with a [Hubot](http://hubot.github.com) to compare the Fitbit activity of your friends.
